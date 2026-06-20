@@ -248,6 +248,48 @@
   .btn-generate:active { transform: scale(0.97); background: var(--primary-active); }
   .btn-generate:disabled { background: #ccc; cursor: not-allowed; }
 
+  /* USAGE METER */
+  .usage-meter {
+    margin-top: 16px;
+    font-size: 13px; font-weight: 600; color: var(--muted);
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    flex-wrap: wrap; text-align: center;
+  }
+  .usage-meter .usage-sep { color: var(--hairline); }
+  .usage-meter.usage-limit-hit { color: var(--error); }
+
+  /* LIBRARY CTA CARD */
+  .library-card {
+    display: flex; align-items: center; gap: 18px; flex-wrap: wrap;
+    background: var(--accent-lightest);
+    border: 1px solid var(--accent-light);
+    border-radius: 18px; padding: 22px 26px;
+    margin-bottom: 32px;
+    text-decoration: none; color: inherit;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .library-card:hover { border-color: var(--primary); }
+  .library-card:active { transform: scale(0.99); }
+  .library-card-icon {
+    width: 46px; height: 46px; flex-shrink: 0; border-radius: 13px;
+    background: var(--primary);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .library-card-text { flex: 1; min-width: 200px; }
+  .library-card-text h3 { font-size: 16px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+  .library-card-text p { font-size: 14px; font-weight: 400; color: var(--muted); line-height: 1.5; }
+  .library-card-cta {
+    display: inline-flex; align-items: center; gap: 6px; flex-shrink: 0;
+    height: 44px; padding: 0 22px; border-radius: 9999px;
+    background: var(--primary); color: var(--on-primary);
+    font-size: 14px; font-weight: 600; white-space: nowrap;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .library-card:hover .library-card-cta { background: var(--primary-focus); }
+  @media (max-width: 480px) {
+    .library-card-cta { width: 100%; justify-content: center; }
+  }
+
   /* RESULT AREA */
   #result-area { display: none; }
 
@@ -518,11 +560,28 @@
       </button>
     </div>
 
+    <div class="usage-meter" id="usage-meter" aria-live="polite"></div>
+
     <button class="btn-generate" id="gen-btn" onclick="generate()">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       Generate Story
     </button>
   </div>
+
+  <!-- READY-MADE LIBRARY -->
+  <a href="https://thunderstudy.indevs.in/formula" target="_blank" rel="noopener" class="library-card" aria-label="Browse ready-made formula stories on ThunderStudy">
+    <div class="library-card-icon" aria-hidden="true">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+    </div>
+    <div class="library-card-text">
+      <h3>Check the library before you generate</h3>
+      <p>Ready-made formula stories for PCMB Class 11 &amp; 12, JEE, NEET, SSC, NTA &amp; Banking subjects — already written, free to read, no generations used.</p>
+    </div>
+    <span class="library-card-cta">
+      Browse Library
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </span>
+  </a>
 
   <!-- RESULT -->
   <div id="result-area">
@@ -598,6 +657,13 @@
         <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
       <div class="faq-a">Completely free. This is part of ThunderStudy's mission to provide world-class study tools to every student, at no cost.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFAQ(this)">
+        Is there a limit on how many stories I can generate?
+        <svg class="faq-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="faq-a">To keep this free for everyone, AI generation is limited to 5 stories per day and 15 per week. For common topics, check the ready-made library first at thunderstudy.indevs.in/formula — it already covers PCMB Class 11 &amp; 12, JEE, NEET, SSC, NTA, and Banking subjects, so you don't need to spend a generation on something that's already written.</div>
     </div>
   </div>
 </section>
@@ -680,6 +746,46 @@ let currentMode = 'story';
 let currentStory = '';
 let currentTopic = '';
 
+// USAGE LIMITS (client-side guard; the server also enforces this if
+// UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN are set on Vercel)
+const DAILY_LIMIT = 5;
+const WEEKLY_LIMIT = 15;
+const USAGE_KEY = 'ts_formula_usage';
+
+function getUsageTimestamps() {
+  let stamps = [];
+  try { stamps = JSON.parse(localStorage.getItem(USAGE_KEY) || '[]'); } catch { stamps = []; }
+  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  stamps = stamps.filter(t => typeof t === 'number' && t > weekAgo);
+  localStorage.setItem(USAGE_KEY, JSON.stringify(stamps));
+  return stamps;
+}
+
+function getUsageCounts() {
+  const stamps = getUsageTimestamps();
+  const dayAgo = Date.now() - 24 * 60 * 60 * 1000;
+  return { daily: stamps.filter(t => t > dayAgo).length, weekly: stamps.length };
+}
+
+function recordUsage() {
+  const stamps = getUsageTimestamps();
+  stamps.push(Date.now());
+  localStorage.setItem(USAGE_KEY, JSON.stringify(stamps));
+}
+
+function updateUsageMeter() {
+  const { daily, weekly } = getUsageCounts();
+  const dailyLeft = Math.max(0, DAILY_LIMIT - daily);
+  const weeklyLeft = Math.max(0, WEEKLY_LIMIT - weekly);
+  const meter = document.getElementById('usage-meter');
+  if (!meter) return;
+  meter.innerHTML =
+    `<span>${dailyLeft} of ${DAILY_LIMIT} free today</span>` +
+    `<span class="usage-sep">·</span>` +
+    `<span>${weeklyLeft} of ${WEEKLY_LIMIT} this week</span>`;
+  meter.classList.toggle('usage-limit-hit', dailyLeft === 0 || weeklyLeft === 0);
+}
+
 function setTopic(btn) {
   document.getElementById('topic-input').value = btn.textContent.trim();
 }
@@ -694,6 +800,16 @@ function setMode(btn) {
 async function generate() {
   const topic = document.getElementById('topic-input').value.trim();
   if (!topic) { showToast('Please enter a topic or formula'); return; }
+
+  const { daily, weekly } = getUsageCounts();
+  if (daily >= DAILY_LIMIT) {
+    showToast(`Daily limit reached (${DAILY_LIMIT}/day). Try the library below, or come back tomorrow.`);
+    return;
+  }
+  if (weekly >= WEEKLY_LIMIT) {
+    showToast(`Weekly limit reached (${WEEKLY_LIMIT}/week). Try the library below, or come back next week.`);
+    return;
+  }
 
   const btn = document.getElementById('gen-btn');
   btn.disabled = true;
@@ -729,6 +845,10 @@ async function generate() {
 
     // Render with formatted sections
     storyEl.innerHTML = formatStory(text);
+
+    // Only count successful generations against the daily/weekly limit
+    recordUsage();
+    updateUsageMeter();
 
     // Save to history
     saveToHistory(topic, currentMode, text);
@@ -908,6 +1028,7 @@ document.getElementById('topic-input').addEventListener('keydown', e => {
 
 // Load existing history on page load
 window.addEventListener('DOMContentLoaded', () => {
+  updateUsageMeter();
   renderHistory();
   const history = JSON.parse(localStorage.getItem('ts_formula_history') || '[]');
   if (history.length) {

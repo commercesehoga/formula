@@ -5,10 +5,64 @@
 //   GROQ_API_KEY    Your Groq API key from https://console.groq.com/keys
 //
 // Optional:
-//   GROQ_MODEL      Defaults to "llama-3.3-70b-versatile"
+//   GROQ_MODEL                  Defaults to "llama-3.3-70b-versatile"
+//   UPSTASH_REDIS_REST_URL      Enables real per-IP daily/weekly limit enforcement
+//   UPSTASH_REDIS_REST_TOKEN    (free tier at https://console.upstash.com — REST API, no SDK needed)
+//
+// The page already enforces 5/day + 15/week client-side via localStorage. That's
+// enough for normal use, but anyone can clear localStorage to bypass it. Adding
+// the two UPSTASH_* env vars below makes this function enforce the same limits
+// per IP address server-side too. Without them, the function still works fine —
+// it just skips the extra check (fail-open).
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
 const MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile';
+const DAILY_LIMIT = 5;
+const WEEKLY_LIMIT = 15;
+
+function getClientIp(req) {
+  const xff = req.headers['x-forwarded-for'];
+  if (xff) return String(xff).split(',')[0].trim();
+  if (req.headers['x-real-ip']) return String(req.headers['x-real-ip']);
+  return (req.socket && req.socket.remoteAddress) || 'unknown';
+}
+
+// Increments per-IP day/week counters in Upstash Redis via one pipelined REST
+// call. Returns null (meaning "skip check") if Upstash isn't configured or
+// unreachable, so the function always fails open rather than blocking users
+// because of a Redis hiccup.
+async function checkServerRateLimit(ip) {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return null;
+
+  const dayKey = `fs:rl:day:${ip}`;
+  const weekKey = `fs:rl:week:${ip}`;
+
+  try {
+    const r = await fetch(`${url}/pipeline`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify([
+        ['INCR', dayKey],
+        ['EXPIRE', dayKey, '86400', 'NX'],
+        ['INCR', weekKey],
+        ['EXPIRE', weekKey, '604800', 'NX']
+      ])
+    });
+    if (!r.ok) return null;
+    const results = await r.json();
+    const dayCount = results && results[0] && Number(results[0].result);
+    const weekCount = results && results[2] && Number(results[2].result);
+    if (!Number.isFinite(dayCount) || !Number.isFinite(weekCount)) return null;
+    return { dayCount, weekCount };
+  } catch {
+    return null;
+  }
+}
 
 const MODE_CONFIG = {
   story: {
@@ -60,6 +114,23 @@ module.exports = async (req, res) => {
   if (!topic) {
     res.status(400).json({ error: 'Please provide a topic or formula.' });
     return;
+  }
+
+  const ip = getClientIp(req);
+  const usage = await checkServerRateLimit(ip);
+  if (usage) {
+    if (usage.dayCount > DAILY_LIMIT) {
+      res.status(429).json({
+        error: `Daily limit reached (${DAILY_LIMIT}/day). Browse the ready-made formula library instead, or try again tomorrow.`
+      });
+      return;
+    }
+    if (usage.weekCount > WEEKLY_LIMIT) {
+      res.status(429).json({
+        error: `Weekly limit reached (${WEEKLY_LIMIT}/week). Browse the ready-made formula library instead, or try again next week.`
+      });
+      return;
+    }
   }
 
   const config = MODE_CONFIG[modeKey];

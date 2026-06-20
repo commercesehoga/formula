@@ -50,6 +50,17 @@ This serves both the static HTML and the `/api/generate` function locally.
   from the server environment, and returns `{ text }` back to the page.
 - If `GROQ_API_KEY` isn't set, the function returns a clear error instead of crashing.
 
+## Usage limits
+Generations are capped at **5 per day and 15 per week**, to keep this sustainable on a free Groq tier.
+- Enforced client-side (localStorage) by default — works out of the box, no extra setup.
+- Optionally enforced server-side per IP too: set `UPSTASH_REDIS_REST_URL` and
+  `UPSTASH_REDIS_REST_TOKEN` (free Redis at https://console.upstash.com) so the
+  limit can't be bypassed by clearing localStorage. If these aren't set, the
+  function simply skips the extra check (fail-open) — nothing breaks.
+- A "Browse Library" card on the page links to https://thunderstudy.indevs.in/formula
+  — ready-made formula stories for PCMB Class 11 & 12, JEE, NEET, SSC, NTA and
+  Banking subjects, so common topics don't have to eat into someone's daily quota.
+
 ## Changing the model
 Groq hosts several fast open models. Set `GROQ_MODEL` in your environment variables
 to switch (defaults to `llama-3.3-70b-versatile`). See available models at
