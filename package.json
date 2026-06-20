@@ -1,0 +1,9 @@
+{
+  "name": "formula-story-mode",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Formula Story Mode \u2014 ThunderStudy. AI turns formulas into memorable stories, powered by Groq.",
+  "scripts": {
+    "dev": "vercel dev"
+  }
+}
