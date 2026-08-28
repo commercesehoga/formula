@@ -1,5 +1,19 @@
 {
   "rewrites": [
-    { "source": "/", "destination": "/formula-story.html" }
+    {
+      "source": "/",
+      "destination": "/formula-story.html"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/favicon.svg",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
+      ]
+    }
   ]
 }
