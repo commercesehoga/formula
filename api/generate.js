@@ -5,7 +5,7 @@
 //   GROQ_API_KEY    Your Groq API key from https://console.groq.com/keys
 //
 // Optional:
-//   GROQ_MODEL                  Ignored; this project uses "qwen/qwen3.6-27b"
+//   GROQ_MODEL                  Ignored; models are tried in order from GROQ_MODELS below
 //   UPSTASH_REDIS_REST_URL      Enables real per-IP daily/weekly limit enforcement
 //   UPSTASH_REDIS_REST_TOKEN    (free tier at https://console.upstash.com — REST API, no SDK needed)
 //
@@ -16,7 +16,19 @@
 // it just skips the extra check (fail-open).
 
 const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
-const MODEL = 'qwen/qwen3.6-27b';
+
+// Ordered fallback chain — tried top to bottom. If Groq closes/decommissions a model,
+// or one is rate-limited / erroring / returns nothing, the next one is used automatically.
+// gpt-oss models are reasoning models: max_completion_tokens also has to cover their
+// thinking, so they get +800 headroom and reasoning_effort 'low'. Llama models reject
+// reasoning_effort, so extras are per-model.
+const GROQ_MODELS = [
+  { id: 'openai/gpt-oss-120b',     extraTokens: 800, extra: { reasoning_effort: 'low' } },
+  { id: 'openai/gpt-oss-20b',      extraTokens: 800, extra: { reasoning_effort: 'low' } },
+  { id: 'llama-3.3-70b-versatile', extraTokens: 0,   extra: {} }, // being closed by Groq — last-resort only
+  { id: 'llama-3.1-8b-instant',    extraTokens: 0,   extra: {} }
+];
+const deadModels = new Set(); // models Groq reported as gone; skipped for the life of this warm instance
 const DAILY_LIMIT = 5;
 const WEEKLY_LIMIT = 15;
 
@@ -148,35 +160,72 @@ Rules:
   const userPrompt = `Topic / formula: ${topic}\nMode: ${config.label}`;
 
   try {
-    const groqRes = await fetch(GROQ_URL, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        temperature: 0.7,
-        max_completion_tokens: 1200,
-        reasoning_effort: 'none'
-      })
-    });
+    // Walk the model chain. Ends with `text` set (success), or `groqRes`/`data` holding the
+    // last failed response, which the error handling below turns into a message.
+    let groqRes = null;
+    let data = {};
+    let text = '';
+    let lastNetworkErr = null;
 
-    const data = await groqRes.json().catch(() => ({}));
+    for (const model of GROQ_MODELS) {
+      if (deadModels.has(model.id)) continue;
+
+      try {
+        groqRes = await fetch(GROQ_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiKey}`
+          },
+          signal: AbortSignal.timeout(15000),
+          body: JSON.stringify({
+            model: model.id,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt }
+            ],
+            temperature: 0.7,
+            max_completion_tokens: 1200 + model.extraTokens,
+            ...model.extra
+          })
+        });
+      } catch (netErr) {
+        console.warn(`Groq network error/timeout on ${model.id}, trying next model:`, netErr.message);
+        lastNetworkErr = netErr;
+        groqRes = null;
+        continue;
+      }
+
+      data = await groqRes.json().catch(() => ({}));
+
+      if (groqRes.ok) {
+        text = data && data.choices && data.choices[0] && data.choices[0].message
+          ? String(data.choices[0].message.content || '').trim()
+          : '';
+        if (text) break;
+        console.warn(`Empty response from ${model.id}, trying next model`);
+        continue;
+      }
+
+      const errMsg = (data && data.error && data.error.message) || '';
+      console.error(`Groq error on ${model.id}:`, groqRes.status, errMsg);
+
+      // A bad/forbidden key fails identically on every model — don't burn the chain.
+      if (groqRes.status === 401 || groqRes.status === 403) break;
+
+      // Model closed / decommissioned → never try it again on this instance.
+      if (groqRes.status === 404 || /decommission|deprecat|does not exist|not found/i.test(errMsg)) {
+        deadModels.add(model.id);
+      }
+      // Anything else (429, 413 TPM, 5xx, …) → next model. Each model has its own rate-limit bucket.
+    }
+    if (!groqRes) throw lastNetworkErr || new Error('No Groq model available');
 
     if (!groqRes.ok) {
       const message = (data && data.error && data.error.message) || 'Groq API request failed.';
       res.status(groqRes.status).json({ error: message });
       return;
     }
-
-    const text = data && data.choices && data.choices[0] && data.choices[0].message
-      ? String(data.choices[0].message.content || '').trim()
-      : '';
 
     if (!text) {
       res.status(502).json({ error: 'Empty response from AI. Please try again.' });
