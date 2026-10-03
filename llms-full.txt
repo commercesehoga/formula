@@ -23,7 +23,7 @@ Last updated: 3 October 2026
 ### Landing page: https://formula.thunderstudy.indevs.in/
 Direct answer: ThunderStudy AI is a free tool that turns any formula or concept into a memorable story, real-life analogy or memory trick, built by Wondermayank for students of Physics, Chemistry, Mathematics and Biology. Lists the subjects covered (Physics, Chemistry, Mathematics, Biology, Economics, any subject) and links to the tool.
 
-### Formula Story Mode: https://formula.thunderstudy.indevs.in/home
+### Formula Story Mode: https://formula.thunderstudy.indevs.in/app
 The main tool. In short: Formula Story Mode is a free AI tool that turns any formula or topic into a story, a real-life analogy or a memory trick, with up to 5 stories a day and 15 a week and a Save as PDF option.
 - Input: any topic or formula, for example E = mc², Newton's Laws, Pythagoras Theorem, Ohm's Law, Photosynthesis, Quadratic Formula, Boyle's Law.
 - Three output styles:
@@ -61,3 +61,33 @@ ThunderStudy AI is owned and maintained by Wondermayank, a solo student develope
 - ThunderStudy CBT mock tests: https://thundertest.indevs.in
 - ThunderStudy blog: https://blog.thunderstudy.indevs.in
 - Wondermayank portfolio: https://wondermayank.in
+
+## Library and guides
+
+- Formula library: https://formula.thunderstudy.indevs.in/formula. All 16 free formula pages for Physics, Chemistry, Maths and Biology.
+- Physics formulas: https://formula.thunderstudy.indevs.in/physics-formulas. Formula stories and memory tricks for Physics.
+- Chemistry formulas: https://formula.thunderstudy.indevs.in/chemistry-formulas. Formula stories and memory tricks for Chemistry.
+- Maths formulas: https://formula.thunderstudy.indevs.in/maths-formulas. Formula stories and memory tricks for Maths.
+- Biology formulas: https://formula.thunderstudy.indevs.in/biology-formulas. Formula stories and memory tricks for Biology.
+- How it works: https://formula.thunderstudy.indevs.in/how-it-works. The four steps from formula to story, with a short FAQ.
+- Examples: https://formula.thunderstudy.indevs.in/examples. Example story, analogy and memory trick outputs.
+- Hindi page: https://formula.thunderstudy.indevs.in/hi. Hindi introduction to ThunderStudy AI, for students who prefer Hindi.
+
+### Formula pages
+
+- Ohm's Law (Physics): https://formula.thunderstudy.indevs.in/formula/ohms-law. Ohm's Law is V = I × R. The current through a conductor is directly proportional to the voltage across it, as long as its resistance and temperature stay constant.
+- Newton's Second Law (Physics): https://formula.thunderstudy.indevs.in/formula/newtons-second-law. Newton's Second Law is F = m × a. The net force on an object equals its mass multiplied by its acceleration, so the same push speeds up a lighter object more than a heavier one.
+- Kinetic Energy (Physics): https://formula.thunderstudy.indevs.in/formula/kinetic-energy. Kinetic Energy is KE = ½ × m × v². The kinetic energy of a moving object is half its mass times the square of its speed, so speed matters far more than mass.
+- First Equation of Motion (Physics): https://formula.thunderstudy.indevs.in/formula/first-equation-of-motion. First Equation of Motion is v = u + at. The final velocity equals the initial velocity plus the acceleration multiplied by the time, for straight-line motion with constant acceleration.
+- Ideal Gas Law (Chemistry): https://formula.thunderstudy.indevs.in/formula/ideal-gas-law. Ideal Gas Law is PV = nRT. For an ideal gas, pressure times volume equals the number of moles times the gas constant times the absolute temperature.
+- Boyle's Law (Chemistry): https://formula.thunderstudy.indevs.in/formula/boyles-law. Boyle's Law is P₁V₁ = P₂V₂. At constant temperature, the pressure of a fixed amount of gas is inversely proportional to its volume, so P times V stays constant.
+- Molarity (Chemistry): https://formula.thunderstudy.indevs.in/formula/molarity. Molarity is M = moles of solute ÷ litres of solution. Molarity tells you how many moles of solute are dissolved in each litre of solution.
+- pH (Chemistry): https://formula.thunderstudy.indevs.in/formula/ph-formula. pH is pH = −log₁₀[H⁺]. pH is the negative base-10 logarithm of the hydrogen-ion concentration, so a lower pH means a more acidic solution.
+- Quadratic (Maths): https://formula.thunderstudy.indevs.in/formula/quadratic-formula. Quadratic is x = (−b ± √(b² − 4ac)) ÷ 2a. It gives the roots of any quadratic equation ax² + bx + c = 0 using only its three coefficients.
+- Pythagoras Theorem (Maths): https://formula.thunderstudy.indevs.in/formula/pythagoras-theorem. Pythagoras Theorem is a² + b² = c². In a right-angled triangle, the square of the hypotenuse equals the sum of the squares of the other two sides.
+- Basic Trigonometric Identity (Maths): https://formula.thunderstudy.indevs.in/formula/trigonometric-identity. Basic Trigonometric Identity is sin²θ + cos²θ = 1. For any angle θ, the square of the sine plus the square of the cosine is always equal to 1.
+- Compound Interest (Maths): https://formula.thunderstudy.indevs.in/formula/compound-interest. Compound Interest is A = P × (1 + r/100)ⁿ. With compound interest, each year's interest is added to the principal, so the amount after n years is P times (1 + r/100) raised to the power n.
+- Photosynthesis (Biology): https://formula.thunderstudy.indevs.in/formula/photosynthesis-equation. Photosynthesis is 6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂. Plants use light energy to turn carbon dioxide and water into glucose and oxygen, mainly in the chloroplasts of their leaves.
+- Cellular Respiration (Biology): https://formula.thunderstudy.indevs.in/formula/cellular-respiration-equation. Cellular Respiration is C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + energy (ATP). Cells break down glucose with oxygen to release energy as ATP, giving off carbon dioxide and water.
+- Hardy-Weinberg (Biology): https://formula.thunderstudy.indevs.in/formula/hardy-weinberg-equation. Hardy-Weinberg is p² + 2pq + q² = 1. In a population that is not evolving, allele frequencies p and q stay constant, and genotype frequencies follow p² + 2pq + q² = 1.
+- Mendel's Monohybrid Ratio (Biology): https://formula.thunderstudy.indevs.in/formula/mendels-monohybrid-ratio. Mendel's Monohybrid Ratio is Phenotype 3 : 1 and genotype 1 : 2 : 1 in F2. When two heterozygous (Tt) parents are crossed, the F2 offspring show a 3:1 phenotypic ratio and a 1:2:1 genotypic ratio.

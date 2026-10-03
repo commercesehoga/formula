@@ -1,17 +1,17 @@
 # Cloudflare Pages redirects: /source /destination [status]
 # Docs: https://developers.cloudflare.com/pages/configuration/redirects/
 
-/index.html   /          301
-/about-us     /about     301
-/changelog    /new       301
-/sitemap      /sitemap.xml  301
+# The tool moved from /home to /app
+/home          /app          301
+/home.html     /app          301
 
-# WARNING: /home is the real Formula Story Mode tool page (home.html), and the
-# header "Formula" link points to it. Enabling this would make the tool unreachable.
-# /home       /          301
+/index.html    /             301
+/about-us      /about        301
+/changelog     /new          301
+/sitemap       /sitemap.xml  301
+/library       /formula      301
 
 # ---- Template for old URLs (uncomment and edit) ----
 # /old-page               /new-page               301
 # /old-folder/*           /new-folder/:splat      301
-# /blog/:slug             https://blog.thunderstudy.indevs.in/:slug  301
 # /temporary-move         /somewhere              302

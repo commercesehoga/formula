@@ -109,6 +109,10 @@ const MODE_CONFIG = {
 export async function onRequest(context) {
   const { request, env } = context;
 
+  if (request.method === 'GET') {
+    return json({ ok: true, configured: Boolean(env.GROQ_API_KEY) });
+  }
+
   if (request.method !== 'POST') {
     return json({ error: 'Method not allowed. Use POST.' }, 405);
   }

@@ -1,0 +1,40 @@
+/*
+  X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=()
+  Cross-Origin-Opener-Policy: same-origin
+
+# Icons, images: cache for a year (file names change when the image changes)
+/icons/*
+  Cache-Control: public, max-age=31536000, immutable
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Always fetch the newest service worker and manifest
+/sw.js
+  Cache-Control: no-cache
+/manifest.json
+  Cache-Control: no-cache
+
+# Search files: short cache so edits show up quickly
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+/robots.txt
+  Cache-Control: public, max-age=3600
+/llms.txt
+  Cache-Control: public, max-age=3600
+/llms-full.txt
+  Cache-Control: public, max-age=3600
+
+# Pages that should not appear in search results
+/offline
+  X-Robots-Tag: noindex
+/status
+  X-Robots-Tag: noindex
+/_build/*
+  X-Robots-Tag: noindex
+/README.md
+  X-Robots-Tag: noindex
+/indexnow-submit.sh
+  X-Robots-Tag: noindex

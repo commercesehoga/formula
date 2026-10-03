@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://formula.thunderstudy.indevs.in/</loc>
     <lastmod>2026-10-03</lastmod>
     <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://formula.thunderstudy.indevs.in/"/>
+    <xhtml:link rel="alternate" hreflang="hi-IN" href="https://formula.thunderstudy.indevs.in/hi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://formula.thunderstudy.indevs.in/"/>
   </url>
   <url>
-    <loc>https://formula.thunderstudy.indevs.in/home</loc>
+    <loc>https://formula.thunderstudy.indevs.in/app</loc>
     <lastmod>2026-10-03</lastmod>
     <priority>0.9</priority>
   </url>
@@ -24,5 +27,128 @@
     <loc>https://formula.thunderstudy.indevs.in/new</loc>
     <lastmod>2026-10-03</lastmod>
     <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/ohms-law</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/newtons-second-law</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/kinetic-energy</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/first-equation-of-motion</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/ideal-gas-law</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/boyles-law</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/molarity</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/ph-formula</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/quadratic-formula</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/pythagoras-theorem</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/trigonometric-identity</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/compound-interest</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/photosynthesis-equation</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/cellular-respiration-equation</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/hardy-weinberg-equation</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula/mendels-monohybrid-ratio</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/physics-formulas</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/chemistry-formulas</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/maths-formulas</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/biology-formulas</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/formula</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/how-it-works</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/examples</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://formula.thunderstudy.indevs.in/hi</loc>
+    <lastmod>2026-10-03</lastmod>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="en-IN" href="https://formula.thunderstudy.indevs.in/"/>
+    <xhtml:link rel="alternate" hreflang="hi-IN" href="https://formula.thunderstudy.indevs.in/hi"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://formula.thunderstudy.indevs.in/"/>
   </url>
 </urlset>

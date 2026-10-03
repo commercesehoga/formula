@@ -5,10 +5,18 @@
 ## Main pages
 
 - [Home](https://formula.thunderstudy.indevs.in/): Turn any formula into a story, real-life analogy or memory trick with ThunderStudy AI. Free for Physics, Chemistry, Maths and Biology, by Wondermayank.
-- [Formula Story Mode](https://formula.thunderstudy.indevs.in/home): Use Formula Story Mode to turn any formula into a story, analogy or memory trick. Free AI tool for Physics, Chemistry, Maths and Biology, with PDF export.
+- [Formula Story Mode](https://formula.thunderstudy.indevs.in/app): Use Formula Story Mode to turn any formula into a story, analogy or memory trick. Free AI tool for Physics, Chemistry, Maths and Biology, with PDF export.
 - [About](https://formula.thunderstudy.indevs.in/about): About ThunderStudy AI and its owner Wondermayank: who runs the site, its mission and what it offers.
 - [FAQ](https://formula.thunderstudy.indevs.in/faq): Answers about ThunderStudy AI: it is free, needs no account, and covers subjects, story styles, the 5-a-day limit, the free library and saving stories.
 - [Changelog](https://formula.thunderstudy.indevs.in/new): Newest-first list of what Wondermayank added, fixed, improved and removed, with dates.
+- [Formula library](https://formula.thunderstudy.indevs.in/formula): All 16 free formula pages for Physics, Chemistry, Maths and Biology.
+- [Physics formulas](https://formula.thunderstudy.indevs.in/physics-formulas): Formula stories and memory tricks for Physics.
+- [Chemistry formulas](https://formula.thunderstudy.indevs.in/chemistry-formulas): Formula stories and memory tricks for Chemistry.
+- [Maths formulas](https://formula.thunderstudy.indevs.in/maths-formulas): Formula stories and memory tricks for Maths.
+- [Biology formulas](https://formula.thunderstudy.indevs.in/biology-formulas): Formula stories and memory tricks for Biology.
+- [How it works](https://formula.thunderstudy.indevs.in/how-it-works): The four steps from formula to story, with a short FAQ.
+- [Examples](https://formula.thunderstudy.indevs.in/examples): Example story, analogy and memory trick outputs.
+- [Hindi page](https://formula.thunderstudy.indevs.in/hi): Hindi introduction to ThunderStudy AI, for students who prefer Hindi.
 
 ## Optional
 

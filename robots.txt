@@ -3,26 +3,31 @@ User-agent: *
 Allow: /
 Disallow: /api/
 Disallow: /.git/
+Disallow: /_build/
 
 # AI crawlers: allowed on all public pages
 User-agent: GPTBot
 Allow: /
 Disallow: /api/
 Disallow: /.git/
+Disallow: /_build/
 
 User-agent: ClaudeBot
 Allow: /
 Disallow: /api/
 Disallow: /.git/
+Disallow: /_build/
 
 User-agent: PerplexityBot
 Allow: /
 Disallow: /api/
 Disallow: /.git/
+Disallow: /_build/
 
 User-agent: Google-Extended
 Allow: /
 Disallow: /api/
 Disallow: /.git/
+Disallow: /_build/
 
 Sitemap: https://formula.thunderstudy.indevs.in/sitemap.xml

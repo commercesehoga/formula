@@ -9,18 +9,28 @@ server and is never exposed in the browser**.
 
 ```
 index.html               landing page (/)
-home.html                the app, Formula Story Mode (/home)
-about.html, faq.html, new.html (changelog), offline.html, 404.html
-functions/api/generate.js  Pages Function that calls Groq  ->  /api/generate
+app.html                 the app, Formula Story Mode (/app). /home redirects here
+hi.html                  Hindi landing page (/hi)
+formula.html             formula library hub (/formula)
+formula/<slug>.html      one page per formula (/formula/ohms-law ...)
+physics-formulas.html, chemistry-formulas.html, maths-formulas.html, biology-formulas.html
+how-it-works.html, examples.html, about.html, faq.html, new.html (changelog)
+status.html              live status (noindex), offline.html, 404.html
+functions/api/generate.js  Pages Function that calls Groq  ->  /api/generate (GET = health check)
+_build/formulas.json     the formula data   _build/build.py   page generator
 sw.js, manifest.json, icons/, assets/og-image.png   PWA + sharing image
 robots.txt, sitemap.xml, llms.txt, llms-full.txt, humans.txt, ads.txt, .well-known/security.txt
-_redirects               Cloudflare Pages redirects
+_headers, _redirects, _routes.json   Cloudflare Pages config
 indexnow-submit.sh       notify search engines of new URLs
 .dev.vars.example        template for local testing
 ```
 
-`vercel.json` is a leftover from the old Vercel setup and is ignored by Cloudflare Pages.
-It is safe to delete.
+## Add or edit formula pages
+1. Add an entry to `_build/formulas.json` (copy an existing one).
+2. Run `python3 _build/build.py` from the project root. It rebuilds the library pages, the sitemap and the llms files.
+3. Commit, push, then run `./indexnow-submit.sh`.
+The header, footer and styles of generated pages are copied from `about.html`.
+
 
 ## Deploy to Cloudflare Pages
 

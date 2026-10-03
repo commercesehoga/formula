@@ -7,6 +7,9 @@
 <meta name="description" content="Turn any formula into a story, real-life analogy or memory trick with ThunderStudy AI. Free for Physics, Chemistry, Maths and Biology, by Wondermayank.">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://formula.thunderstudy.indevs.in/">
+<link rel="alternate" hreflang="en-IN" href="https://formula.thunderstudy.indevs.in/">
+<link rel="alternate" hreflang="hi-IN" href="https://formula.thunderstudy.indevs.in/hi">
+<link rel="alternate" hreflang="x-default" href="https://formula.thunderstudy.indevs.in/">
 <meta name="author" content="Wondermayank">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="ThunderStudy AI">
@@ -1298,6 +1301,24 @@ footer{
 .page-meta a{color:var(--primary);font-weight:600;text-decoration:none}
 .page-meta a:hover{text-decoration:underline}
 </style>
+<style id="dock-styles">
+.dock{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:60;display:flex;align-items:center;gap:14px;padding:12px 22px;border-radius:999px;background:color-mix(in srgb,var(--surface) 78%,transparent);box-shadow:8px 8px 22px var(--clay-dark),-8px -8px 22px var(--clay-light);border:1px solid var(--hairline);backdrop-filter:blur(16px) saturate(160%);-webkit-backdrop-filter:blur(16px) saturate(160%)}
+.dock a{position:relative;display:flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:50%;color:var(--muted);text-decoration:none;transition:transform .25s ease,color .2s,background .2s,box-shadow .25s}
+.dock a svg{width:26px;height:26px;flex:none;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.dock a:hover,.dock a:focus-visible{color:var(--primary);transform:translateY(-3px)}
+.dock a.active{width:66px;height:66px;margin:-14px 6px;color:#fff;background:linear-gradient(145deg,#7d63ff,var(--primary));box-shadow:0 10px 26px rgba(87,58,252,.55),inset 2px 2px 6px rgba(255,255,255,.25)}
+.dock a.active svg{width:30px;height:30px}
+.dock a.active:hover{transform:translateY(-3px)}
+body{padding-bottom:96px}
+@media(max-width:420px){.dock{gap:8px;padding:10px 14px}.dock a{width:44px;height:44px}.dock a.active{width:60px;height:60px;margin:-12px 4px}}
+</style>
+<style id="card-link-styles">
+a.link-card{display:block;color:inherit;text-decoration:none;transition:transform .2s ease}
+a.link-card:hover,a.link-card:focus-visible{transform:translateY(-3px)}
+.card .go{display:inline-flex;align-items:center;gap:10px;margin-top:16px;color:var(--primary);font-weight:700;font-size:14.5px;text-decoration:none}
+.card .go svg{flex:none;width:30px;height:30px;padding:7px;box-sizing:border-box;border-radius:50%;background:var(--surface);color:var(--primary);box-shadow:3px 3px 8px var(--clay-dark),-3px -3px 8px var(--clay-light);transition:background .2s,color .2s,transform .2s}
+a.link-card:hover .go svg,a.link-card:focus-visible .go svg{background:var(--primary);color:#fff;transform:translateX(3px)}
+</style>
 </head>
 <body>
 
@@ -1309,7 +1330,7 @@ footer{
 <!-- NAV -->
 <header class="nav">
   <div class="wrap">
-    <a href="/home" class="brand" aria-label="ThunderStudy AI by Wondermayank">
+    <a href="/app" class="brand" aria-label="ThunderStudy AI by Wondermayank">
       <span class="brand-mark">
         <img src="/favicon.svg" alt="ThunderStudy AI logo" width="32" height="32">
       </span>
@@ -1320,7 +1341,8 @@ footer{
     </a>
 
     <nav class="nav-links" aria-label="Main navigation">
-      <a href="/home">Formula</a>
+      <a href="/app">Formula</a>
+      <a href="/formula">Library</a>
       <a href="/about">About</a>
       <a href="/faq">FAQ</a>
       <a href="/new" title="ThunderStudy AI changelog: what's new">New</a>
@@ -1364,7 +1386,8 @@ footer{
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
-  <a href="/home">Formula</a>
+  <a href="/app">Formula</a>
+  <a href="/formula">Library</a>
   <a href="/about">About</a>
   <a href="/faq">FAQ</a>
   <a href="/new" title="ThunderStudy AI changelog: what's new">New</a>
@@ -1379,7 +1402,7 @@ footer{
     <h1>Turn Any Formula Into a<br><em>Story You&rsquo;ll Never Forget</em></h1>
     <p>ThunderStudy AI is a free tool that turns any formula or concept into a memorable story, real-life analogy or memory trick. Type a topic, choose a style and get a step-by-step breakdown you can save as a PDF. It is built by Wondermayank for students of Physics, Chemistry, Mathematics and Biology.</p>
     <div class="error-actions">
-      <a href="/home" class="primary-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Start creating formula</a>
+      <a href="/app" class="primary-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Start creating formula</a>
     </div>
     <div class="hero-tags" aria-label="Subjects">
       <span class="tag">Physics</span>
@@ -1392,6 +1415,10 @@ footer{
     <div class="page-meta">Last updated: <time datetime="2026-10-03">3 October 2026</time>. ThunderStudy is owned and maintained by <a href="/about">Wondermayank</a>, a solo student developer who has been building free educational tools since 2018.</div>
   </div>
 </section>
+<div class="wrap">
+<section class="section" id="explore"><div class="section-head"><div class="error-badge"><span class="error-dot"></span>Explore</div><h2>See how it works, then start creating</h2><p>Everything students need in one place: guides, examples, a Hindi version and live status.</p></div><div class="grid"><a class="card link-card" href="/how-it-works"><h3>How it works</h3><p>Three steps from typing a formula to getting a story you can save as a PDF.</p><span class="go">Read the guide <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a><a class="card link-card" href="/examples"><h3>Examples</h3><p>See real stories, analogies and memory tricks before you make your own.</p><span class="go">See examples <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a><a class="card link-card" href="/hi"><h3>हिंदी में</h3><p>ThunderStudy AI का हिंदी पेज, हिंदी बोलने वाले students के लिए।</p><span class="go">हिंदी पेज खोलें <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a><a class="card link-card" href="/status"><h3>Status</h3><p>Check that the tool and the AI service are running right now.</p><span class="go">Check status <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a></div></section>
+<section class="section" id="library"><div class="section-head"><div class="error-badge"><span class="error-dot"></span>Formula library</div><h2>Browse every formula</h2><p>16 formulas, one page each, free to read.</p></div><div class="grid"><a class="card link-card" href="/physics-formulas"><h3>Physics</h3><p>Ohm&#x27;s law, Newton&#x27;s second law, kinetic energy and more.</p><span class="go">Open Physics <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a><a class="card link-card" href="/chemistry-formulas"><h3>Chemistry</h3><p>Ideal gas law, molarity, pH, Boyle&#x27;s law.</p><span class="go">Open Chemistry <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a><a class="card link-card" href="/maths-formulas"><h3>Maths</h3><p>Quadratic formula, Pythagoras, trigonometry, compound interest.</p><span class="go">Open Maths <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a><a class="card link-card" href="/biology-formulas"><h3>Biology</h3><p>Photosynthesis, respiration, Hardy-Weinberg, Mendel.</p><span class="go">Open Biology <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a><a class="card link-card" href="/formula"><h3>Full library</h3><p>All formulas on one page, grouped by subject.</p><span class="go">View all <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a><a class="card link-card" href="/formula/ohms-law"><h3>Start with Ohm&#x27;s Law</h3><p>A good first page: V = I × R explained as a water tank.</p><span class="go">Read it <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></span></a></div></section>
+</div>
 </main>
 
 <!-- FOOTER -->
@@ -1408,7 +1435,7 @@ footer{
 <div class="wrap">
 <div class="footer-grid">
 <div class="footer-brand-col">
-<a aria-label="ThunderStudy AI by Wondermayank" class="footer-brand" href="/home">
+<a aria-label="ThunderStudy AI by Wondermayank" class="footer-brand" href="/app">
 <span class="brand-mark">
 <img alt="ThunderStudy AI logo" decoding="async" height="22" loading="lazy" src="/favicon.svg" width="22"/>
 </span>
@@ -1479,11 +1506,16 @@ footer{
 <a href="/about">About</a>
 <a href="/faq">FAQ</a>
 <a href="/new">Changelog</a>
+<a href="/formula">Library</a>
 <a href="/sitemap">Sitemap</a>
 </nav>
 </div>
 </div>
 </footer>
+
+<!-- DOCK -->
+<nav class="dock" aria-label="Quick dock"><a href="/index" class="active" aria-current="page" aria-label="Home" title="Home"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11.5 12 4l9 7.5"/><path d="M5 10v10h14V10"/></svg></a><a href="/app" aria-label="Make" title="Make"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9z"/></svg></a><a href="/formula" aria-label="Library" title="Library"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/></svg></a></nav>
+
 
 <script>
 /* LOADER */
