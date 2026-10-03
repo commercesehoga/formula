@@ -1,0 +1,17 @@
+# ThunderStudy
+
+> ThunderStudy AI is a free educational tool at https://formula.thunderstudy.indevs.in. Its Formula Story Mode turns any formula or concept into a story, a real-life analogy or a memory trick, for Physics, Chemistry, Mathematics, Biology and more. It is built and run by Wondermayank, a solo student developer. No account or payment is needed.
+
+## Main pages
+
+- [Home / Landing](https://formula.thunderstudy.indevs.in/): Overview of ThunderStudy AI and a link to start creating.
+- [Formula Story Mode](https://formula.thunderstudy.indevs.in/home): The tool itself. Enter a topic or formula and get a story, analogy or memory trick, then save it as a PDF.
+- [About](https://formula.thunderstudy.indevs.in/about): Who runs the site, its mission and what it offers.
+- [FAQ](https://formula.thunderstudy.indevs.in/faq): Answers about cost, subjects, daily limits, the free library, saving stories and accuracy.
+- [Changelog](https://formula.thunderstudy.indevs.in/new): Dated list of what has been added, fixed and improved.
+
+## Optional
+
+- [Full details](https://formula.thunderstudy.indevs.in/llms-full.txt): Longer description of every tool and section, with key facts.
+- [Sitemap](https://formula.thunderstudy.indevs.in/sitemap.xml): All public URLs.
+- Contact: contact@wondermayank.indevs.in

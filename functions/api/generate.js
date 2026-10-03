@@ -1,7 +1,8 @@
-// /api/generate.js
-// Vercel Serverless Function — calls Groq's OpenAI-compatible Chat Completions API.
+// /functions/api/generate.js  ->  served at  /api/generate
+// Cloudflare Pages Function — calls Groq's OpenAI-compatible Chat Completions API.
 //
-// Required environment variable (set in Vercel → Project → Settings → Environment Variables):
+// Required environment variable (Cloudflare dashboard → Workers & Pages → your project
+// → Settings → Variables and Secrets; add it as a Secret, then redeploy):
 //   GROQ_API_KEY    Your Groq API key from https://console.groq.com/keys
 //
 // Optional:
@@ -32,20 +33,28 @@ const deadModels = new Set(); // models Groq reported as gone; skipped for the l
 const DAILY_LIMIT = 5;
 const WEEKLY_LIMIT = 15;
 
-function getClientIp(req) {
-  const xff = req.headers['x-forwarded-for'];
+function getClientIp(request) {
+  const cf = request.headers.get('cf-connecting-ip');
+  if (cf) return cf.trim();
+  const xff = request.headers.get('x-forwarded-for');
   if (xff) return String(xff).split(',')[0].trim();
-  if (req.headers['x-real-ip']) return String(req.headers['x-real-ip']);
-  return (req.socket && req.socket.remoteAddress) || 'unknown';
+  return 'unknown';
+}
+
+function json(data, status = 200) {
+  return new Response(JSON.stringify(data), {
+    status,
+    headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }
+  });
 }
 
 // Increments per-IP day/week counters in Upstash Redis via one pipelined REST
 // call. Returns null (meaning "skip check") if Upstash isn't configured or
 // unreachable, so the function always fails open rather than blocking users
 // because of a Redis hiccup.
-async function checkServerRateLimit(ip) {
-  const url = process.env.UPSTASH_REDIS_REST_URL;
-  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+async function checkServerRateLimit(ip, env) {
+  const url = env.UPSTASH_REDIS_REST_URL;
+  const token = env.UPSTASH_REDIS_REST_TOKEN;
   if (!url || !token) return null;
 
   const dayKey = `fs:rl:day:${ip}`;
@@ -97,51 +106,46 @@ const MODE_CONFIG = {
   }
 };
 
-module.exports = async (req, res) => {
-  if (req.method !== 'POST') {
-    res.status(405).json({ error: 'Method not allowed. Use POST.' });
-    return;
+export async function onRequest(context) {
+  const { request, env } = context;
+
+  if (request.method !== 'POST') {
+    return json({ error: 'Method not allowed. Use POST.' }, 405);
   }
 
-  const apiKey = process.env.GROQ_API_KEY;
+  const apiKey = env.GROQ_API_KEY;
   if (!apiKey) {
-    res.status(500).json({
+    return json({
       error:
-        'Server is missing GROQ_API_KEY. Add it in your Vercel project under Settings → Environment Variables, then redeploy.'
-    });
-    return;
+        'Server is missing GROQ_API_KEY. Add it in your Cloudflare Pages project under Settings → Variables and Secrets, then redeploy.'
+    }, 500);
   }
 
-  let body = req.body;
-  if (typeof body === 'string') {
-    try {
-      body = JSON.parse(body);
-    } catch {
-      body = {};
-    }
+  let body = {};
+  try {
+    body = await request.json();
+  } catch {
+    body = {};
   }
   const topic = (body && body.topic ? String(body.topic) : '').trim().slice(0, 200);
   const modeKey = body && MODE_CONFIG[body.mode] ? body.mode : 'story';
 
   if (!topic) {
-    res.status(400).json({ error: 'Please provide a topic or formula.' });
-    return;
+    return json({ error: 'Please provide a topic or formula.' }, 400);
   }
 
-  const ip = getClientIp(req);
-  const usage = await checkServerRateLimit(ip);
+  const ip = getClientIp(request);
+  const usage = await checkServerRateLimit(ip, env);
   if (usage) {
     if (usage.dayCount > DAILY_LIMIT) {
-      res.status(429).json({
+      return json({
         error: `Daily limit reached (${DAILY_LIMIT}/day). Browse the ready-made formula library instead, or try again tomorrow.`
-      });
-      return;
+      }, 429);
     }
     if (usage.weekCount > WEEKLY_LIMIT) {
-      res.status(429).json({
+      return json({
         error: `Weekly limit reached (${WEEKLY_LIMIT}/week). Browse the ready-made formula library instead, or try again next week.`
-      });
-      return;
+      }, 429);
     }
   }
 
@@ -223,17 +227,15 @@ Rules:
 
     if (!groqRes.ok) {
       const message = (data && data.error && data.error.message) || 'Groq API request failed.';
-      res.status(groqRes.status).json({ error: message });
-      return;
+      return json({ error: message }, groqRes.status);
     }
 
     if (!text) {
-      res.status(502).json({ error: 'Empty response from AI. Please try again.' });
-      return;
+      return json({ error: 'Empty response from AI. Please try again.' }, 502);
     }
 
-    res.status(200).json({ text });
+    return json({ text }, 200);
   } catch (err) {
-    res.status(500).json({ error: 'Failed to reach Groq API. Please try again in a moment.' });
+    return json({ error: 'Failed to reach Groq API. Please try again in a moment.' }, 500);
   }
-};
+}

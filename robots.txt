@@ -1,0 +1,28 @@
+# robots.txt for https://formula.thunderstudy.indevs.in
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.git/
+
+# AI crawlers: allowed on all public pages
+User-agent: GPTBot
+Allow: /
+Disallow: /api/
+Disallow: /.git/
+
+User-agent: ClaudeBot
+Allow: /
+Disallow: /api/
+Disallow: /.git/
+
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /.git/
+
+User-agent: Google-Extended
+Allow: /
+Disallow: /api/
+Disallow: /.git/
+
+Sitemap: https://formula.thunderstudy.indevs.in/sitemap.xml

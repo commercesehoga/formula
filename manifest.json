@@ -1,0 +1,15 @@
+{
+  "name": "ThunderStudy AI",
+  "short_name": "ThunderStudy",
+  "description": "Free AI tool that turns any formula into a story, analogy or memory trick.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#573AFC",
+  "background_color": "#F4F1FC",
+  "lang": "en-IN",
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

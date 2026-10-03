@@ -1,0 +1,63 @@
+# ThunderStudy (ThunderStudy AI)
+
+> ThunderStudy AI is a free educational tool at https://formula.thunderstudy.indevs.in. Its Formula Story Mode turns any formula or concept into a memorable story, real-life analogy or memory trick. It is owned, built and maintained by Wondermayank, a solo student developer who has been building free educational tools since 2018.
+
+Last updated: 3 October 2026
+
+## Key facts
+
+- Site name: ThunderStudy (main product: ThunderStudy AI)
+- Domain: formula.thunderstudy.indevs.in
+- Owner and developer: Wondermayank (solo student developer, building free educational tools since 2018)
+- Contact: contact@wondermayank.indevs.in
+- Cost: free. No account, no card, no paid plan, no ads.
+- Fair-use limit: 5 AI stories per day and 15 per week.
+- Audience: students preparing for school exams and for JEE, NEET, SSC, NTA and Banking exams in India.
+- Language: English (en-IN)
+- Hosting: Cloudflare Pages. Static HTML pages with a small serverless function (/api/generate) that calls the AI model, so the API key is never exposed in the browser.
+- Data: saved stories and the daily/weekly usage count are stored in the visitor's own browser (localStorage). There is no sign-up.
+- Accuracy: stories are written by AI and can contain mistakes. Users should check important formulas against their textbook or official exam material.
+
+## Pages and tools
+
+### Landing page: https://formula.thunderstudy.indevs.in/
+Introduces ThunderStudy AI: "Turn any formula into a story you will never forget". Lists the subjects covered (Physics, Chemistry, Mathematics, Biology, Economics, any subject) and links to the tool.
+
+### Formula Story Mode: https://formula.thunderstudy.indevs.in/home
+The main tool.
+- Input: any topic or formula, for example E = mc², Newton's Laws, Pythagoras Theorem, Ohm's Law, Photosynthesis, Quadratic Formula, Boyle's Law.
+- Three output styles:
+  - Story Mode: wraps the formula in an immersive story.
+  - Real-Life Analogy: compares the formula to something from everyday life.
+  - Memory Trick: gives a short hook to recall the formula.
+  - Each comes with a step-by-step breakdown of the formula.
+- Actions on a result: Save as PDF, Copy Text, Regenerate.
+- Saved Stories: a history kept on the user's device, with a Clear all option.
+- Free library: ready-made formula stories for PCMB Class 11 and 12, JEE, NEET, SSC, NTA and Banking subjects. They are free to read and do not use any of the daily generations.
+- Limits: 5 AI stories a day and 15 a week, to keep the free AI engine available to everyone.
+
+### About: https://formula.thunderstudy.indevs.in/about
+Explains who runs the site (Wondermayank, solo student developer, no company or team), the mission (free, easier-to-remember exam prep with no paid tier), what the tool offers, and how to make contact.
+
+### FAQ: https://formula.thunderstudy.indevs.in/faq
+Covers: whether it is free, what Formula Story Mode is, whether an account is needed, supported subjects, the difference between Story Mode, Real-Life Analogy and Memory Trick, generation limits, the free library, saving and copying stories, where stories are stored, accuracy of AI output, who makes the site, ads (none), and how to report a bug or request a feature.
+
+### Changelog: https://formula.thunderstudy.indevs.in/new
+Dated list of added, fixed, improved and removed items, newest first.
+
+### Other files
+- https://formula.thunderstudy.indevs.in/sitemap.xml: list of public URLs.
+- https://formula.thunderstudy.indevs.in/llms.txt: short summary for AI assistants.
+- https://formula.thunderstudy.indevs.in/.well-known/security.txt: security contact.
+- https://formula.thunderstudy.indevs.in/humans.txt: credits.
+
+## Who runs the site
+
+ThunderStudy AI is owned and maintained by Wondermayank, a solo student developer who has been building free educational and utility tools for students since 2018. There is no company or team behind it. Portfolio: https://wondermayank.in . Contact: contact@wondermayank.indevs.in
+
+## Related sites
+
+- ThunderStudy: https://thunderstudy.indevs.in
+- ThunderStudy CBT mock tests: https://thundertest.indevs.in
+- ThunderStudy blog: https://blog.thunderstudy.indevs.in
+- Wondermayank portfolio: https://wondermayank.in

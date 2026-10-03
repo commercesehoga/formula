@@ -1,65 +1,63 @@
 # Formula Story Mode — ThunderStudy
 
 AI tool that turns any formula/topic into a Story, Real-Life Analogy, or Memory Trick.
-The frontend is a single static HTML file. The AI call is proxied through a Vercel
-serverless function (`/api/generate.js`) so your **Groq API key stays on the server
-and is never exposed in the browser**.
+The frontend is static HTML. The AI call is proxied through a Cloudflare Pages Function
+(`functions/api/generate.js`, served at `/api/generate`) so your **Groq API key stays on the
+server and is never exposed in the browser**.
 
 ## Files
 
 ```
-formula-story.html   ← the app (static, no build step)
-api/generate.js      ← serverless function that calls Groq
-vercel.json          ← routes "/" to formula-story.html
-package.json         ← project metadata (no dependencies needed)
-.env.example          ← template for local testing
+index.html               landing page (/)
+home.html                the app, Formula Story Mode (/home)
+about.html, faq.html, new.html (changelog), offline.html, 404.html
+functions/api/generate.js  Pages Function that calls Groq  ->  /api/generate
+sw.js, manifest.json, icons/, assets/og-image.png   PWA + sharing image
+robots.txt, sitemap.xml, llms.txt, llms-full.txt, humans.txt, ads.txt, .well-known/security.txt
+_redirects               Cloudflare Pages redirects
+indexnow-submit.sh       notify search engines of new URLs
+.dev.vars.example        template for local testing
 ```
 
-## Deploy to Vercel
+`vercel.json` is a leftover from the old Vercel setup and is ignored by Cloudflare Pages.
+It is safe to delete.
 
-### Option A — GitHub + Vercel dashboard (recommended)
-1. Create a new GitHub repo and push all the files in this folder to it (keep the
-   folder structure exactly as is — `api/generate.js` must stay inside an `api/` folder).
-2. Go to https://vercel.com/new and import that repo.
-3. Before the first deploy (or right after, then redeploy), open
-   **Project → Settings → Environment Variables** and add:
-   - `GROQ_API_KEY` → your key from https://console.groq.com/keys
-   - Model is fixed to `qwen/qwen3.6-27b` (no `GROQ_MODEL` variable needed)
-4. Deploy. Your app will be live at `https://<your-project>.vercel.app/`.
+## Deploy to Cloudflare Pages
 
-### Option B — Vercel CLI
-```bash
-npm i -g vercel
-cd formula-story-vercel
-vercel link
-vercel env add GROQ_API_KEY
-vercel --prod
-```
+1. Push this folder to a GitHub repo (keep the folder structure; `functions/` must stay at the
+   project root).
+2. In the Cloudflare dashboard go to **Workers & Pages → Create → Pages → Connect to Git** and pick the repo.
+3. Build settings: framework preset **None**, build command empty, output directory `/` (the
+   project root).
+4. Open **Settings → Variables and Secrets** and add `GROQ_API_KEY` (your key from
+   https://console.groq.com/keys) as a Secret. Add it for Production, and for Preview if you use it.
+5. Redeploy. Add your custom domain `formula.thunderstudy.indevs.in` under **Custom domains**.
 
 ## Local testing (optional)
 ```bash
-cp .env.example .env   # then fill in your real key
-vercel dev
+cp .dev.vars.example .dev.vars   # then fill in your real key
+npx wrangler pages dev .
 ```
-This serves both the static HTML and the `/api/generate` function locally.
+This serves the static pages and the `/api/generate` function locally.
 
 ## How it works
 - The page posts `{ topic, mode }` to `/api/generate`.
-- `api/generate.js` builds a prompt per mode (story / analogy / trick), calls
-  Groq's OpenAI-compatible Chat Completions endpoint with your `GROQ_API_KEY`
-  from the server environment, and returns `{ text }` back to the page.
+- `functions/api/generate.js` builds a prompt per mode (story / analogy / trick), calls Groq's
+  OpenAI-compatible Chat Completions endpoint with `GROQ_API_KEY` from the Pages environment,
+  and returns `{ text }` to the page.
 - If `GROQ_API_KEY` isn't set, the function returns a clear error instead of crashing.
 
 ## Usage limits
 Generations are capped at **5 per day and 15 per week**, to keep this sustainable on a free Groq tier.
-- Enforced client-side (localStorage) by default — works out of the box, no extra setup.
-- Optionally enforced server-side per IP too: set `UPSTASH_REDIS_REST_URL` and
-  `UPSTASH_REDIS_REST_TOKEN` (free Redis at https://console.upstash.com) so the
-  limit can't be bypassed by clearing localStorage. If these aren't set, the
-  function simply skips the extra check (fail-open) — nothing breaks.
-- A "Browse Library" card on the page links to https://thunderstudy.indevs.in/formula
-  — ready-made formula stories for PCMB Class 11 & 12, JEE, NEET, SSC, NTA and
-  Banking subjects, so common topics don't have to eat into someone's daily quota.
+- Enforced client-side (localStorage) by default, no extra setup.
+- Optionally enforced server-side per IP: set `UPSTASH_REDIS_REST_URL` and
+  `UPSTASH_REDIS_REST_TOKEN` (free Redis at https://console.upstash.com) so the limit can't be
+  bypassed by clearing localStorage. If these aren't set, the function skips the extra check
+  (fail-open).
+- A "Browse Library" card on the page links to https://thunderstudy.indevs.in/formula, with
+  ready-made formula stories for PCMB Class 11 & 12, JEE, NEET, SSC, NTA and Banking subjects.
 
 ## Model
-This version uses Groq `qwen/qwen3.6-27b` directly. Do not set `GROQ_MODEL`; the API is intentionally pinned to this model.
+The function tries Groq models in order and falls back automatically if one is unavailable or
+rate-limited: `openai/gpt-oss-120b`, `openai/gpt-oss-20b`, `llama-3.3-70b-versatile`,
+`llama-3.1-8b-instant` (see `GROQ_MODELS` in `functions/api/generate.js`).

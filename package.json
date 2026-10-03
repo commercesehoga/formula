@@ -4,6 +4,6 @@
   "private": true,
   "description": "Formula Story Mode \u2014 ThunderStudy. AI turns formulas into memorable stories, powered by Groq.",
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "wrangler pages dev ."
   }
 }

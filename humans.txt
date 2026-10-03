@@ -1,0 +1,12 @@
+/* TEAM */
+Owner: Wondermayank
+Role: Solo student developer, building free educational tools since 2018
+Contact: contact@wondermayank.indevs.in
+Site: https://wondermayank.in
+
+/* SITE */
+Name: ThunderStudy AI
+URL: https://formula.thunderstudy.indevs.in
+Stack: HTML, CSS, JavaScript, serverless function (api/generate.js), Cloudflare Pages
+Standards: HTML5, CSS3, PWA (manifest + service worker)
+Last update: 2026-10-03
