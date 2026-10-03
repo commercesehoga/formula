@@ -1,4 +1,4 @@
-# ThunderStudy (ThunderStudy AI)
+# ThunderStudy AI
 
 > ThunderStudy AI is a free educational tool at https://formula.thunderstudy.indevs.in. Its Formula Story Mode turns any formula or concept into a memorable story, real-life analogy or memory trick. It is owned, built and maintained by Wondermayank, a solo student developer who has been building free educational tools since 2018.
 
@@ -6,7 +6,7 @@ Last updated: 3 October 2026
 
 ## Key facts
 
-- Site name: ThunderStudy (main product: ThunderStudy AI)
+- Site name: ThunderStudy AI (also written ThunderStudy)
 - Domain: formula.thunderstudy.indevs.in
 - Owner and developer: Wondermayank (solo student developer, building free educational tools since 2018)
 - Contact: contact@wondermayank.indevs.in
@@ -21,10 +21,10 @@ Last updated: 3 October 2026
 ## Pages and tools
 
 ### Landing page: https://formula.thunderstudy.indevs.in/
-Introduces ThunderStudy AI: "Turn any formula into a story you will never forget". Lists the subjects covered (Physics, Chemistry, Mathematics, Biology, Economics, any subject) and links to the tool.
+Direct answer: ThunderStudy AI is a free tool that turns any formula or concept into a memorable story, real-life analogy or memory trick, built by Wondermayank for students of Physics, Chemistry, Mathematics and Biology. Lists the subjects covered (Physics, Chemistry, Mathematics, Biology, Economics, any subject) and links to the tool.
 
 ### Formula Story Mode: https://formula.thunderstudy.indevs.in/home
-The main tool.
+The main tool. In short: Formula Story Mode is a free AI tool that turns any formula or topic into a story, a real-life analogy or a memory trick, with up to 5 stories a day and 15 a week and a Save as PDF option.
 - Input: any topic or formula, for example E = mc², Newton's Laws, Pythagoras Theorem, Ohm's Law, Photosynthesis, Quadratic Formula, Boyle's Law.
 - Three output styles:
   - Story Mode: wraps the formula in an immersive story.

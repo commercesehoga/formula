@@ -1,17 +1,18 @@
-# ThunderStudy
+# ThunderStudy AI
 
-> ThunderStudy AI is a free educational tool at https://formula.thunderstudy.indevs.in. Its Formula Story Mode turns any formula or concept into a story, a real-life analogy or a memory trick, for Physics, Chemistry, Mathematics, Biology and more. It is built and run by Wondermayank, a solo student developer. No account or payment is needed.
+> ThunderStudy AI is a free educational tool at https://formula.thunderstudy.indevs.in/. Its Formula Story Mode turns any formula or concept into a story, a real-life analogy or a memory trick, for Physics, Chemistry, Mathematics, Biology and more. It is owned, built and maintained by Wondermayank, a solo student developer who has been building free educational tools since 2018. No account, card or ads. Last updated: 3 October 2026.
 
 ## Main pages
 
-- [Home / Landing](https://formula.thunderstudy.indevs.in/): Overview of ThunderStudy AI and a link to start creating.
-- [Formula Story Mode](https://formula.thunderstudy.indevs.in/home): The tool itself. Enter a topic or formula and get a story, analogy or memory trick, then save it as a PDF.
-- [About](https://formula.thunderstudy.indevs.in/about): Who runs the site, its mission and what it offers.
-- [FAQ](https://formula.thunderstudy.indevs.in/faq): Answers about cost, subjects, daily limits, the free library, saving stories and accuracy.
-- [Changelog](https://formula.thunderstudy.indevs.in/new): Dated list of what has been added, fixed and improved.
+- [Home](https://formula.thunderstudy.indevs.in/): Turn any formula into a story, real-life analogy or memory trick with ThunderStudy AI. Free for Physics, Chemistry, Maths and Biology, by Wondermayank.
+- [Formula Story Mode](https://formula.thunderstudy.indevs.in/home): Use Formula Story Mode to turn any formula into a story, analogy or memory trick. Free AI tool for Physics, Chemistry, Maths and Biology, with PDF export.
+- [About](https://formula.thunderstudy.indevs.in/about): About ThunderStudy AI and its owner Wondermayank: who runs the site, its mission and what it offers.
+- [FAQ](https://formula.thunderstudy.indevs.in/faq): Answers about ThunderStudy AI: it is free, needs no account, and covers subjects, story styles, the 5-a-day limit, the free library and saving stories.
+- [Changelog](https://formula.thunderstudy.indevs.in/new): Newest-first list of what Wondermayank added, fixed, improved and removed, with dates.
 
 ## Optional
 
-- [Full details](https://formula.thunderstudy.indevs.in/llms-full.txt): Longer description of every tool and section, with key facts.
+- [Full details](https://formula.thunderstudy.indevs.in/llms-full.txt): Longer description of every page, with key facts and who runs the site.
 - [Sitemap](https://formula.thunderstudy.indevs.in/sitemap.xml): All public URLs.
+- Owner: Wondermayank, https://wondermayank.in
 - Contact: contact@wondermayank.indevs.in
