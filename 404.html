@@ -828,6 +828,7 @@ select.text-input{appearance:none;-webkit-appearance:none;padding-right:48px;bac
 .toast.show{opacity:1;transform:translate(-50%,0)}
 [data-theme="dark"] .shape.inset i{box-shadow:none;background:var(--canvas-deep);border:1px solid var(--hairline-strong)}
 [data-theme="dark"] .cta-band .btn{background:var(--ink);color:var(--canvas)}
+.dock{position:fixed;z-index:150;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:max-content;max-width:calc(100% - 24px);animation:dockIn .7s cubic-bezier(.34,1.56,.64,1) .25s both;transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .3s ease}
 .dock.hide{transform:translateX(-50%) translateY(calc(100% + 28px));opacity:0}
 @keyframes dockIn{from{transform:translateX(-50%) translateY(140%) scale(.9);opacity:0}to{transform:translateX(-50%) translateY(0) scale(1);opacity:1}}
 .dock-bar{position:relative;display:flex;align-items:center;gap:4px;padding:9px;border-radius:var(--radius-pill);background:color-mix(in srgb,var(--surface) 82%,transparent);-webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);border:1px solid var(--hairline);box-shadow:10px 10px 26px var(--clay-dark),-8px -8px 22px var(--clay-light),inset 0 1px 0 rgba(255,255,255,.35)}
