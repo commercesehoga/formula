@@ -1,9 +1,10 @@
 /* ThunderStudy AI service worker
    - App shell + offline page are precached
    - HTML (navigations): network-first, falls back to cache, then offline.html
-   - Assets (css, js, images, fonts, icons): cache-first
+   - CSS/JS: network-first (so style fixes are never stuck behind a stale cache)
+   - Other assets (images, fonts, icons): cache-first
    - /api/ and non-GET requests are never touched */
-const VERSION = 'v3-2026-10-17';
+const VERSION = 'v5-2026-10-17c';
 const CACHE = 'thunderstudy-' + VERSION;
 const OFFLINE_URL = '/offline.html';
 
@@ -79,6 +80,17 @@ self.addEventListener('fetch', function (event) {
       }).catch(function () {
         return caches.match(req).then(function (hit) { return hit || offlineResponse(); });
       })
+    );
+    return;
+  }
+
+  // CSS / JS: network-first, cache as offline fallback
+  if (sameOrigin && /\.(css|js)$/.test(url.pathname)) {
+    event.respondWith(
+      fetch(req).then(function (res) {
+        if (res && res.ok) { var copy = res.clone(); caches.open(CACHE).then(function (c) { c.put(req, copy); }); }
+        return res;
+      }).catch(function () { return caches.match(req); })
     );
     return;
   }

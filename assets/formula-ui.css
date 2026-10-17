@@ -127,11 +127,35 @@ body{font-family:var(--font);font-size:16px;line-height:1.6}
   .nav-cta{padding:0 14px;font-size:13px;min-height:44px}
   .brand-text{min-width:0}.brand-name{white-space:nowrap}.brand-by{white-space:nowrap}
 }
-@media(max-width:380px){.brand-by{display:none}}
 
 @media(max-width:640px){
   .mode-row{align-items:stretch}.mode-chip{flex:1 1 auto;width:100%}
   .nav-right{gap:8px}.nav .wrap{gap:8px}
 }
 body{padding-bottom:96px}
-@media(max-width:480px){.nav-cta{display:none}}
+
+/* ===== Header: icon-only Request file + Mock Test on phones, clean 3-line menu button ===== */
+.nav .nav-cta{gap:8px}
+.nav .nav-cta svg{display:none;width:18px;height:18px;flex:none}
+.nav .nav-request svg{width:18px;height:18px}
+@media(max-width:700px){
+  .nav .nav-request-text,.nav .nav-cta-text{display:none!important}
+  .nav .nav-right{gap:8px}
+  .nav .nav-request,.nav .nav-cta,.nav .theme-btn,.nav .ham-btn{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;min-width:40px;min-height:40px;padding:0!important;border-radius:14px}
+  .nav .nav-cta svg{display:block}
+  .brand-by{display:block!important}
+}
+@media(max-width:400px){
+  .nav .wrap{padding:0 12px;gap:6px}
+  .nav .nav-right{gap:6px}
+  .nav .nav-request,.nav .nav-cta,.nav .theme-btn,.nav .ham-btn{width:36px;height:36px;min-width:36px;min-height:36px;border-radius:12px}
+  .nav .brand{gap:8px;min-width:0}
+  .nav .brand-mark{width:30px;height:30px}.nav .brand-mark img{width:28px;height:28px}
+  .nav .brand-name{font-size:14px}.nav .brand-by{font-size:10px}
+}
+/* hamburger: lines morph to an X around their own centre */
+.ham-btn .ham-icon{width:20px;height:20px;overflow:visible}
+.ham-btn .ham-icon path{transform-box:fill-box;transform-origin:center;transition:transform .28s ease,opacity .2s ease}
+.ham-btn[aria-expanded="true"] .ham-top{transform:translateY(6px) rotate(45deg)}
+.ham-btn[aria-expanded="true"] .ham-mid{opacity:0;transform:scaleX(0)}
+.ham-btn[aria-expanded="true"] .ham-bot{transform:translateY(-6px) rotate(-45deg)}

@@ -141,12 +141,14 @@ export async function onRequest(context) {
   if (usage) {
     if (usage.dayCount > DAILY_LIMIT) {
       return json({
-        error: `Daily limit reached (${DAILY_LIMIT}/day). Browse the ready-made formula library instead, or try again tomorrow.`
+        error: `Daily limit reached (${DAILY_LIMIT}/day). Browse the ready-made formula library instead, or try again tomorrow.`,
+        limit: 'daily'
       }, 429);
     }
     if (usage.weekCount > WEEKLY_LIMIT) {
       return json({
-        error: `Weekly limit reached (${WEEKLY_LIMIT}/week). Browse the ready-made formula library instead, or try again next week.`
+        error: `Weekly limit reached (${WEEKLY_LIMIT}/week). Browse the ready-made formula library instead, or try again next week.`,
+        limit: 'weekly'
       }, 429);
     }
   }
