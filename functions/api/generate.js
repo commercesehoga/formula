@@ -1,12 +1,12 @@
 // /functions/api/generate.js  ->  served at  /api/generate
-// Cloudflare Pages Function — calls Groq's OpenAI-compatible Chat Completions API.
+// Cloudflare Pages Function — runs the Tiny model (OpenAI-compatible Chat Completions API).
 //
 // Required environment variable (Cloudflare dashboard → Workers & Pages → your project
 // → Settings → Variables and Secrets; add it as a Secret, then redeploy):
-//   GROQ_API_KEY    Your Groq API key from https://console.groq.com/keys
+//   TINY_API_KEY    Your Tiny model API key (the old name GROQ_API_KEY still works)
 //
 // Optional:
-//   GROQ_MODEL                  Ignored; models are tried in order from GROQ_MODELS below
+//   TINY_MODEL                  Ignored; models are tried in order from TINY_MODELS below
 //   UPSTASH_REDIS_REST_URL      Enables real per-IP daily/weekly limit enforcement
 //   UPSTASH_REDIS_REST_TOKEN    (free tier at https://console.upstash.com — REST API, no SDK needed)
 //
@@ -16,20 +16,20 @@
 // per IP address server-side too. Without them, the function still works fine —
 // it just skips the extra check (fail-open).
 
-const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const TINY_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
-// Ordered fallback chain — tried top to bottom. If Groq closes/decommissions a model,
+// Ordered fallback chain — tried top to bottom. If the provider closes/decommissions a model,
 // or one is rate-limited / erroring / returns nothing, the next one is used automatically.
 // gpt-oss models are reasoning models: max_completion_tokens also has to cover their
 // thinking, so they get +800 headroom and reasoning_effort 'low'. Llama models reject
 // reasoning_effort, so extras are per-model.
-const GROQ_MODELS = [
+const TINY_MODELS = [
   { id: 'openai/gpt-oss-120b',     extraTokens: 800, extra: { reasoning_effort: 'low' } },
   { id: 'openai/gpt-oss-20b',      extraTokens: 800, extra: { reasoning_effort: 'low' } },
-  { id: 'llama-3.3-70b-versatile', extraTokens: 0,   extra: {} }, // being closed by Groq — last-resort only
+  { id: 'llama-3.3-70b-versatile', extraTokens: 0,   extra: {} }, // being closed by the provider — last-resort only
   { id: 'llama-3.1-8b-instant',    extraTokens: 0,   extra: {} }
 ];
-const deadModels = new Set(); // models Groq reported as gone; skipped for the life of this warm instance
+const deadModels = new Set(); // models the provider reported as gone; skipped for the life of this warm instance
 const DAILY_LIMIT = 5;
 const WEEKLY_LIMIT = 15;
 
@@ -110,18 +110,17 @@ export async function onRequest(context) {
   const { request, env } = context;
 
   if (request.method === 'GET') {
-    return json({ ok: true, configured: Boolean(env.GROQ_API_KEY) });
+    return json({ ok: true, configured: Boolean(env.TINY_API_KEY || env.GROQ_API_KEY) });
   }
 
   if (request.method !== 'POST') {
     return json({ error: 'Method not allowed. Use POST.' }, 405);
   }
 
-  const apiKey = env.GROQ_API_KEY;
+  const apiKey = env.TINY_API_KEY || env.GROQ_API_KEY;
   if (!apiKey) {
     return json({
-      error:
-        'Server is missing GROQ_API_KEY. Add it in your Cloudflare Pages project under Settings → Variables and Secrets, then redeploy.'
+      error: 'Tiny is not set up on the server yet. Please try again later.'
     }, 500);
   }
 
@@ -168,18 +167,18 @@ Rules:
   const userPrompt = `Topic / formula: ${topic}\nMode: ${config.label}`;
 
   try {
-    // Walk the model chain. Ends with `text` set (success), or `groqRes`/`data` holding the
+    // Walk the model chain. Ends with `text` set (success), or `tinyRes`/`data` holding the
     // last failed response, which the error handling below turns into a message.
-    let groqRes = null;
+    let tinyRes = null;
     let data = {};
     let text = '';
     let lastNetworkErr = null;
 
-    for (const model of GROQ_MODELS) {
+    for (const model of TINY_MODELS) {
       if (deadModels.has(model.id)) continue;
 
       try {
-        groqRes = await fetch(GROQ_URL, {
+        tinyRes = await fetch(TINY_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -198,15 +197,15 @@ Rules:
           })
         });
       } catch (netErr) {
-        console.warn(`Groq network error/timeout on ${model.id}, trying next model:`, netErr.message);
+        console.warn(`Tiny network error/timeout on ${model.id}, trying next model:`, netErr.message);
         lastNetworkErr = netErr;
-        groqRes = null;
+        tinyRes = null;
         continue;
       }
 
-      data = await groqRes.json().catch(() => ({}));
+      data = await tinyRes.json().catch(() => ({}));
 
-      if (groqRes.ok) {
+      if (tinyRes.ok) {
         text = data && data.choices && data.choices[0] && data.choices[0].message
           ? String(data.choices[0].message.content || '').trim()
           : '';
@@ -216,30 +215,30 @@ Rules:
       }
 
       const errMsg = (data && data.error && data.error.message) || '';
-      console.error(`Groq error on ${model.id}:`, groqRes.status, errMsg);
+      console.error(`Tiny error on ${model.id}:`, tinyRes.status, errMsg);
 
       // A bad/forbidden key fails identically on every model — don't burn the chain.
-      if (groqRes.status === 401 || groqRes.status === 403) break;
+      if (tinyRes.status === 401 || tinyRes.status === 403) break;
 
       // Model closed / decommissioned → never try it again on this instance.
-      if (groqRes.status === 404 || /decommission|deprecat|does not exist|not found/i.test(errMsg)) {
+      if (tinyRes.status === 404 || /decommission|deprecat|does not exist|not found/i.test(errMsg)) {
         deadModels.add(model.id);
       }
       // Anything else (429, 413 TPM, 5xx, …) → next model. Each model has its own rate-limit bucket.
     }
-    if (!groqRes) throw lastNetworkErr || new Error('No Groq model available');
+    if (!tinyRes) throw lastNetworkErr || new Error('No Tiny model available');
 
-    if (!groqRes.ok) {
-      const message = (data && data.error && data.error.message) || 'Groq API request failed.';
-      return json({ error: message }, groqRes.status);
+    if (!tinyRes.ok) {
+      const message = (data && data.error && data.error.message) || 'Tiny model request failed.';
+      return json({ error: message }, tinyRes.status);
     }
 
     if (!text) {
-      return json({ error: 'Empty response from AI. Please try again.' }, 502);
+      return json({ error: 'Tiny returned an empty answer. Please try again.' }, 502);
     }
 
-    return json({ text }, 200);
+    return json({ text, model: 'tiny' }, 200);
   } catch (err) {
-    return json({ error: 'Failed to reach Groq API. Please try again in a moment.' }, 500);
+    return json({ error: 'Could not reach the Tiny model. Please try again in a moment.' }, 500);
   }
 }

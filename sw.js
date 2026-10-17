@@ -3,11 +3,11 @@
    - HTML (navigations): network-first, falls back to cache, then offline.html
    - Assets (css, js, images, fonts, icons): cache-first
    - /api/ and non-GET requests are never touched */
-const VERSION = 'v2-2026-10-03';
+const VERSION = 'v3-2026-10-17';
 const CACHE = 'thunderstudy-' + VERSION;
 const OFFLINE_URL = '/offline.html';
 
-const SHELL = ['/', '/app', '/about', '/faq', '/new', '/formula', '/how-it-works', '/examples', '/hi',
+const SHELL = ['/assets/formula-ui.css', '/images/tiny/tiny-wave.webp', '/', '/app', '/about', '/faq', '/new', '/formula', '/how-it-works', '/examples', '/hi',
   '/favicon.svg', '/manifest.json', '/icons/icon-192.png', '/icons/icon-512.png'];
 
 // Cloudflare Pages redirects /x.html to /x. A redirected response cannot be used
