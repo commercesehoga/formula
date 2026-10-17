@@ -1152,7 +1152,14 @@ html,body{overflow-x:clip}
 
 <!-- LOADER -->
 <div id="loader" aria-hidden="true">
-  <div class="loader-blob"></div>
+  <div class="loader-main fx-loader">
+    <div class="loader-card">
+      <span class="loader-mark">f(x)</span>
+      <span class="loader-name">Formula<small>by wondermayank</small></span>
+    </div>
+    <div class="fx-line"><span>F = ma</span><span>V = IR</span><span>PV = nRT</span><span>a&sup2; + b&sup2; = c&sup2;</span><span>E = mc&sup2;</span></div>
+    <div class="loader-bar"><i></i></div>
+  </div>
 </div>
 
 <!-- NAV -->
@@ -1162,23 +1169,34 @@ html,body{overflow-x:clip}
 
 
 <main class="page-main">
-<section class="page-hero hero-landing">
+<section class="page-hero hero-landing hero-f">
   <div class="blob blob-1"></div>
   <div class="blob blob-2"></div>
   <div class="wrap">
-    <div class="error-badge"><span class="error-dot"></span>AI-Powered Learning</div>
-    <h1>Turn Any Formula Into a<br><em>Story You&rsquo;ll Never Forget</em></h1>
-    <p>ThunderStudy AI is a free tool that turns any formula or concept into a memorable story, real-life analogy or memory trick. Type a topic, choose a style and get a step-by-step breakdown you can save as a PDF. It is built by Wondermayank for students of Physics, Chemistry, Mathematics and Biology.</p>
-    <div class="error-actions">
-      <a href="/app" class="primary-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Start creating formula</a>
-    </div>
-    <div class="hero-tags" aria-label="Subjects">
-      <span class="tag">Physics</span>
-      <span class="tag">Chemistry</span>
-      <span class="tag">Mathematics</span>
-      <span class="tag">Biology</span>
-      <span class="tag">Economics</span>
-      <span class="tag">Any Subject</span>
+    <div class="hf-grid">
+      <div class="hf-copy">
+        <h1>Turn Any Formula Into a<br><em>Story You&rsquo;ll Never Forget</em></h1>
+        <p>ThunderStudy AI is a free tool that turns any formula or concept into a memorable story, real-life analogy or memory trick. Type a topic, choose a style and get a step-by-step breakdown you can save as a PDF. It is built by Wondermayank for students of Physics, Chemistry, Mathematics and Biology.</p>
+        <form class="hf-form" action="/app" method="get">
+          <label class="sr-only" for="hf-topic">Formula or topic</label>
+          <input id="hf-topic" class="topic-input" type="text" name="topic" maxlength="200" placeholder="Try: Ohm's Law" autocomplete="off">
+          <button class="primary-btn" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Start creating formula</button>
+        </form>
+        <div class="hero-tags" aria-label="Subjects">
+          <span class="tag">Physics</span><span class="tag">Chemistry</span><span class="tag">Mathematics</span><span class="tag">Biology</span><span class="tag">Economics</span><span class="tag">Any Subject</span>
+        </div>
+      </div>
+      <div class="hf-art" aria-hidden="true">
+        <span class="hf-sym s1">&Sigma;</span><span class="hf-sym s2">&pi;</span><span class="hf-sym s3">&radic;</span><span class="hf-sym s4">&int;</span>
+        <div class="hf-card">
+          <div class="hf-top"><span class="hf-dot"></span><span class="hf-dot"></span><span class="hf-dot"></span><b>formula &rarr; story</b></div>
+          <div class="hf-slides">
+            <div class="hf-slide"><div class="hf-eq">F = ma</div><span class="hf-mode">Story</span><p>A cart-puller named Newton pushes harder, and the heavier the cart, the slower it speeds up.</p></div>
+            <div class="hf-slide"><div class="hf-eq">V = IR</div><span class="hf-mode">Analogy</span><p>Voltage is the water pressure, resistance is the narrow pipe, current is the flow you get.</p></div>
+            <div class="hf-slide"><div class="hf-eq">PV = nRT</div><span class="hf-mode">Memory trick</span><p>Say &ldquo;Pivnert&rdquo; and the gas law is yours: P V = n R T.</p></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="page-meta">Last updated: <time datetime="2026-10-03">3 October 2026</time>. ThunderStudy is owned and maintained by <a href="/about">Wondermayank</a>, a solo student developer who has been building free educational tools since 2018.</div>
   </div>
@@ -1343,30 +1361,17 @@ if('serviceWorker' in navigator){window.addEventListener('load',function(){navig
 </div>
 </div>
 </footer>
-<nav class="dock" aria-label="Quick tools">
+<nav class="dock" aria-label="Quick navigation">
   <div class="dock-bar">
     <span class="dock-indicator" aria-hidden="true"></span>
-
-    <button class="dock-btn" type="button" data-tab="pdf" data-label="Upload PDF" aria-label="Upload PDF">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-    </button>
-    <button class="dock-btn" type="button" data-tab="youtube" data-label="YouTube Link" aria-label="YouTube Link">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"/><polygon points="10 9 16 12 10 15" fill="currentColor" stroke="none"/></svg>
-    </button>
-    <button class="dock-btn" type="button" data-tab="url" data-label="Website URL" aria-label="Website URL">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18"/><path d="M12 3a14 14 0 0 0 0 18"/></svg>
-    </button>
-    <button class="dock-btn" type="button" data-tab="topic" data-label="Topic or Question" aria-label="Topic or Question" aria-current="page">
+    <button class="dock-btn" type="button" data-tab="home" data-label="Home" data-href="/" aria-label="Home" aria-current="page">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5"/></svg>
     </button>
-    <button class="dock-btn" type="button" data-tab="ocr" data-label="Image (OCR)" aria-label="Image (OCR)">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    <button class="dock-btn" type="button" data-tab="create" data-label="Create" data-href="/app" aria-label="Create">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
     </button>
-    <button class="dock-btn" type="button" data-tab="presets" data-label="Preset Decks" aria-label="Preset Decks">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-    </button>
-    <button class="dock-btn" type="button" data-tab="save" data-label="Saved Decks" aria-label="Saved Decks">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+    <button class="dock-btn" type="button" data-tab="formula" data-label="Formula library" data-href="/formula" aria-label="Formula library">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
     </button>
   </div>
 </nav>
