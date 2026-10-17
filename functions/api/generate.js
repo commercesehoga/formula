@@ -18,6 +18,7 @@
 
 const TINY_URL = 'https://api.groq.com/openai/v1/chat/completions';
 
+// NOTE: llama-3.3-70b-versatile and llama-3.1-8b-instant were decommissioned by Groq on 2026-08-16.
 // Ordered fallback chain — tried top to bottom. If the provider closes/decommissions a model,
 // or one is rate-limited / erroring / returns nothing, the next one is used automatically.
 // gpt-oss models are reasoning models: max_completion_tokens also has to cover their
@@ -25,9 +26,7 @@ const TINY_URL = 'https://api.groq.com/openai/v1/chat/completions';
 // reasoning_effort, so extras are per-model.
 const TINY_MODELS = [
   { id: 'openai/gpt-oss-120b',     extraTokens: 800, extra: { reasoning_effort: 'low' } },
-  { id: 'openai/gpt-oss-20b',      extraTokens: 800, extra: { reasoning_effort: 'low' } },
-  { id: 'llama-3.3-70b-versatile', extraTokens: 0,   extra: {} }, // being closed by the provider — last-resort only
-  { id: 'llama-3.1-8b-instant',    extraTokens: 0,   extra: {} }
+  { id: 'openai/gpt-oss-20b',      extraTokens: 800, extra: { reasoning_effort: 'low' } }
 ];
 const deadModels = new Set(); // models the provider reported as gone; skipped for the life of this warm instance
 const DAILY_LIMIT = 5;
@@ -173,6 +172,7 @@ Rules:
     let data = {};
     let text = '';
     let lastNetworkErr = null;
+    let firstErr = null; // first real upstream failure — the one worth showing
 
     for (const model of TINY_MODELS) {
       if (deadModels.has(model.id)) continue;
@@ -216,6 +216,7 @@ Rules:
 
       const errMsg = (data && data.error && data.error.message) || '';
       console.error(`Tiny error on ${model.id}:`, tinyRes.status, errMsg);
+      if (!firstErr) firstErr = { status: tinyRes.status, message: errMsg };
 
       // A bad/forbidden key fails identically on every model — don't burn the chain.
       if (tinyRes.status === 401 || tinyRes.status === 403) break;
@@ -229,8 +230,9 @@ Rules:
     if (!tinyRes) throw lastNetworkErr || new Error('No Tiny model available');
 
     if (!tinyRes.ok) {
-      const message = (data && data.error && data.error.message) || 'Tiny model request failed.';
-      return json({ error: message }, tinyRes.status);
+      const e = firstErr || { status: tinyRes.status, message: (data && data.error && data.error.message) || '' };
+      const status = e.status >= 500 ? 502 : e.status; // upstream 5xx != our 500
+      return json({ error: e.message || 'Tiny model request failed.', upstream: e.status }, status);
     }
 
     if (!text) {
@@ -239,6 +241,7 @@ Rules:
 
     return json({ text, model: 'tiny' }, 200);
   } catch (err) {
-    return json({ error: 'Could not reach the Tiny model. Please try again in a moment.' }, 500);
+    console.error('generate failed:', err);
+    return json({ error: 'Could not reach the Tiny model. Please try again in a moment.', detail: String((err && err.message) || err) }, 500);
   }
 }
